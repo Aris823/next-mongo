@@ -6,9 +6,10 @@ import Link from "next/link";
 export default function Home() {
   const [categoryList, setCategoryList] = useState([]);
   const { register, handleSubmit } = useForm();
+  const APIBASE = process.env.NEXT_PUBLIC_API_URL
 
   async function fetchCategory() {
-    const data = await fetch("http://localhost:3000/api/category");
+    const data = await fetch(`${APIBASE}/category`);
     const c = await data.json();
     setCategoryList(c);
   }
@@ -18,7 +19,7 @@ export default function Home() {
   }, []);
 
   function createCategory(data) {
-    fetch("http://localhost:3000/api/category", {
+    fetch(`${APIBASE}/category`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
