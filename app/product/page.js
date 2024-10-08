@@ -22,7 +22,13 @@ export default function Home() {
     const c = await data.json();
     setCategory(c);
   }
+  
+  useEffect(() => {
+    fetchCategory();
+    fetchProducts();
+  }, []);
 
+  
   const createProduct = (data) => {
     fetch(`${APIBASE}/product`, {
       method: "POST",
@@ -42,10 +48,6 @@ export default function Home() {
     fetchProducts();
   }
 
-  useEffect(() => {
-    fetchCategory();
-    fetchProducts();
-  }, []);
 
   return (
     <div className="flex flex-row gap-4">
