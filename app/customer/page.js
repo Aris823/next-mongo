@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { DataGrid } from "@mui/x-data-grid";
+import Navbar from "../components/navbar";
 
 
 export default function Home() {
@@ -55,7 +56,7 @@ export default function Home() {
             const product = products.find((p) => p._id === customer.product);
             return {
                 ...customer,
-                product: product ? product.name : "Unknown",  // Use product name or 'Unknown' if no match
+                product: product ? product.name : "Unknown",  
                 id: customer._id,
             };
         });
@@ -201,81 +202,84 @@ export default function Home() {
 
     //With Update
     return (
-        <main>
-            <form onSubmit={handleSubmit(handleCustomerFormSubmit)} className="bg-white p-4 rounded-lg shadow-lg">
-                <div className="grid grid-cols-2 gap-4 w-fit m-4 border border-gray-800 p-2">
-                    <div>Customer Name:</div>
-                    <div>
-                        <input
-                            name="name"
-                            type="text"
-                            {...register("name", { required: true })}
-                            className="border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        />
-                    </div>
+        <div>
+            <Navbar />
+            <main className="p-8 bg-gray-100 min-h-screen pt-20">
+                <form onSubmit={handleSubmit(handleCustomerFormSubmit)} className="bg-white p-4 rounded-lg shadow-lg">
+                    <div className="grid grid-cols-2 gap-4 w-fit m-4 border border-gray-800 p-2">
+                        <div>Customer Name:</div>
+                        <div>
+                            <input
+                                name="name"
+                                type="text"
+                                {...register("name", { required: true })}
+                                className="border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            />
+                        </div>
 
-                    <div>Product</div>
-                    <div>
-                        <select
-                            name="product"
-                            {...register("product", { required: true })}
-                            className="border border-black w-full"
-                        >
-                            {product.map((c) => (
-                                <option key={c._id} value={c._id}>
-                                    {c.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                        <div>Product</div>
+                        <div>
+                            <select
+                                name="product"
+                                {...register("product", { required: true })}
+                                className="border border-black w-full"
+                            >
+                                {product.map((c) => (
+                                    <option key={c._id} value={c._id}>
+                                        {c.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                    <div>Total Order:</div>
-                    <div>
-                        <input
-                            name="orderAmount"
-                            type="number"
-                            {...register("orderAmount", { required: true })}
-                            className="border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        />
-                    </div>
+                        <div>Total Order:</div>
+                        <div>
+                            <input
+                                name="orderAmount"
+                                type="number"
+                                {...register("orderAmount", { required: true })}
+                                className="border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            />
+                        </div>
 
-                    <div className="col-span-2 text-right">
-                        {editMode ?
-                            <>
+                        <div className="col-span-2 text-right">
+                            {editMode ?
+                                <>
+                                    <input
+                                        type="submit"
+                                        className="italic bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                                        value="Update" />
+                                    {' '}
+                                    <button
+                                        onClick={() => stopEditMode()}
+                                        className="italic bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
+                                    >Cancel</button>
+                                </>
+                                :
                                 <input
                                     type="submit"
-                                    className="italic bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                                    value="Update" />
-                                {' '}
-                                <button
-                                    onClick={() => stopEditMode()}
-                                    className="italic bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
-                                >Cancel</button>
-                            </>
-                            :
-                            <input
-                                type="submit"
-                                value="Add"
-                                className="w-20 italic bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
-                            />
-                        }
+                                    value="Add"
+                                    className="w-20 italic bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
+                                />
+                            }
+                        </div>
+
                     </div>
+                </form>
 
+                <div>
+                    <div className="bg-white p-6 rounded-lg shadow-lg">
+                        <h2 className="text-xl font-semibold mb-4">Cutomer List</h2>
+                        <DataGrid
+                            rows={customerList}
+                            columns={columns}
+                            pageSize={5}
+                            className="text-gray-700"
+                        />
+                    </div>
                 </div>
-            </form>
 
-            <div>
-                <div className="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 className="text-xl font-semibold mb-4">Cutomer List</h2>
-                    <DataGrid
-                        rows={customerList}
-                        columns={columns}
-                        pageSize={5}
-                        className="text-gray-700"
-                    />
-                </div>
-            </div>
-
-        </main>
+            </main>
+        </div>
     )
 }
