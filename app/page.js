@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Navbar from "./components/Navbar"; // Ensure the path is correct
+import Navbar from "./components/navbar"; 
 
 export default function BoxBasic() {
   return (
